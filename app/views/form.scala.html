@@ -1,0 +1,13 @@
+@import play.mvc.Http.Request
+@(form: Form[UserProcess])(implicit request: Request, messages: play.i18n.Messages)
+
+@main("Formulario"){
+    <h1>Formulario</h1>
+
+    @helper.form(routes.HomeController.submitForm){
+        @helper.CSRF.formField
+        @helper.inputText(form("name"))
+        @helper.inputText(form("email"))
+        <button type="submit">Ingresar</button>
+    }
+}
