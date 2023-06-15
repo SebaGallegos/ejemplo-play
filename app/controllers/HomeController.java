@@ -16,6 +16,8 @@ public class HomeController extends Controller{
 
     private final Form<UserProcess> form;
     private MessagesApi messagesApi;
+    private final String dbPath = new File("app/models/database.db").getAbsolutePath();
+    private final String jdbc = "jdbc:sqlite:" + dbPath;
 
     @Inject
     public HomeController(FormFactory formFactory, MessagesApi messagesApi){
@@ -24,9 +26,9 @@ public class HomeController extends Controller{
     }
 
     private void createDB() throws SQLException{
-        File dbFile = new File("/home/sebastian/ejemplo-play/app/models/database.db");
+        File dbFile = new File(dbPath);
         if (!dbFile.exists()){
-            try (Connection connection = DriverManager.getConnection("jdbc:sqlite:/home/sebastian/ejemplo-play/app/models/database.db")){
+            try (Connection connection = DriverManager.getConnection(jdbc)){
                 String createTable = "CREATE TABLE IF NOT EXISTS usuarios (id INTEGER PRIMARY KEY AUTOINCREMENT), name TEXT, email TEXT)";
                 try (Statement statement = connection.createStatement()){
                     statement.executeUpdate(createTable);
@@ -64,7 +66,7 @@ public class HomeController extends Controller{
             String name = request.body().asFormUrlEncoded().get("name")[0];
             String email = request.body().asFormUrlEncoded().get("email")[0];
 
-            try (Connection connection = DriverManager.getConnection("jdbc:sqlite:/home/sebastian/ejemplo-play/app/models/database.db")) {
+            try (Connection connection = DriverManager.getConnection(jdbc)) {
                 String query = "INSERT INTO usuarios (name, email) VALUES (?,?);";
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
                     statement.setString(1, name);
