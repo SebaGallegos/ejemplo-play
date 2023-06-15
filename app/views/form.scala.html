@@ -4,7 +4,7 @@
 @main("Formulario"){
     <h1>Formulario</h1>
 
-    @helper.form(routes.HomeController.submitForm){
+    @helper.form(routes.HomeController.createUser){
         @helper.CSRF.formField
         @helper.inputText(form("name"))
         @helper.inputText(form("email"))
