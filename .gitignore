@@ -6,4 +6,6 @@ target
 /.classpath
 /.project
 /.settings
+*.db
+app/models/*.db
 /RUNNING_PID
